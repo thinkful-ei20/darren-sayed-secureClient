@@ -44,6 +44,8 @@ export default function reducer(state = initialState, action) {
       error: action.error
     });
   } else if (action.type === USER_ACTIVE) {
+    console.log('logging user active');
+    
     return Object.assign({},state,{
       lastActivity: Date.now()
     });

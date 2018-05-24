@@ -40,7 +40,9 @@ export class App extends React.Component {
   }
 
   initLogoutInterval() {
-    const DEFAULT_INACTIVE = 300000;
+    // const DEFAULT_INACTIVE = 300000;
+    const DEFAULT_INACTIVE = 10000;
+
     setInterval(() => {
       if (Date.now() - this.props.lastActive >= DEFAULT_INACTIVE) {
         this.logout();
@@ -62,8 +64,10 @@ export class App extends React.Component {
     this.props.dispatch(userActive());
   }
 
-  restartModal() {
+  restartModal() {    
     this.props.dispatch(hideModal());
+    console.log('restartModal called so hideModal also called');
+    
   }
 
   stopPeriodicRefresh() {
@@ -75,10 +79,12 @@ export class App extends React.Component {
   }
 
   render() {
+
     return (
+      
       <div className="app" onMouseMove={() => this.restartTimer()}>
         <HeaderBar />
-        <ShowModal restartModal={this.restartModal}/>
+        <ShowModal restartModal={() => this.restartModal()}/>
         <Route exact path="/" component={LandingPage} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/register" component={RegistrationPage} />

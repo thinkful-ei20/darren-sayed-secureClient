@@ -14,8 +14,10 @@ export class ShowModal extends React.Component{
             <button onClick={() => this.props.restartModal()}>Stay logged in</button>
           </div>
         )
+      } else {
+            return null;
+
       }
-    return null;
   }
 
 }
