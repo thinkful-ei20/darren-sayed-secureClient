@@ -5,8 +5,9 @@ import {Route, withRouter} from 'react-router-dom';
 import HeaderBar from './header-bar';
 import LandingPage from './landing-page';
 import Dashboard from './dashboard';
+import ShowModal from './showModal';
 import RegistrationPage from './registration-page';
-import {refreshAuthToken, userActive, clearAuth} from '../actions/auth';
+import {refreshAuthToken, userActive, clearAuth, showModal, hideModal} from '../actions/auth';
 
 export class App extends React.Component {
   componentDidUpdate(prevProps) {
@@ -52,13 +53,17 @@ export class App extends React.Component {
     const MODAL_TIMEOUT = 5000;
     setInterval(() => {
         if (Date.now() - this.props.lastActive >= MODAL_TIMEOUT) {
-            console.log('display modal')
+            this.props.dispatch(showModal());
         }
     }, MODAL_TIMEOUT)
   }
 
   restartTimer() {
     this.props.dispatch(userActive());
+  }
+
+  restartModal() {
+    this.props.dispatch(hideModal());
   }
 
   stopPeriodicRefresh() {
@@ -73,6 +78,7 @@ export class App extends React.Component {
     return (
       <div className="app" onMouseMove={() => this.restartTimer()}>
         <HeaderBar />
+        <ShowModal restartModal={this.restartModal}/>
         <Route exact path="/" component={LandingPage} />
         <Route exact path="/dashboard" component={Dashboard} />
         <Route exact path="/register" component={RegistrationPage} />
@@ -85,7 +91,6 @@ const mapStateToProps = state => ({
   hasAuthToken: state.auth.authToken !== null,
   loggedIn: state.auth.currentUser !== null,
   lastActive: state.auth.lastActivity,
-  logoutTimer: state.auth.logoutTime
 });
 
 // Deal with update blocking - https://reacttraining.com/react-router/web/guides/dealing-with-update-blocking

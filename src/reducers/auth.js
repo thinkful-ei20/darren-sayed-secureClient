@@ -4,7 +4,9 @@ import {
   AUTH_REQUEST,
   AUTH_SUCCESS,
   AUTH_ERROR,
-  USER_ACTIVE
+  USER_ACTIVE,
+  SHOW_MODAL,
+  HIDE_MODAL
 } from '../actions/auth';
 
 const initialState = {
@@ -12,7 +14,8 @@ const initialState = {
   currentUser: null,
   loading: false,
   error: null,
-  lastActivity: Date.now()
+  lastActivity: Date.now(),
+  showModal: false
 };
 
 export default function reducer(state = initialState, action) {
@@ -44,6 +47,14 @@ export default function reducer(state = initialState, action) {
     return Object.assign({},state,{
       lastActivity: Date.now()
     });
-  } 
+  } else if (action.type === SHOW_MODAL) {
+    return Object.assign({},state,{
+      showModal: true
+    });
+  } else if (action.type === HIDE_MODAL) {
+    return Object.assign({},state,{
+      showModal: false
+    });
+  }
   return state;
 }
