@@ -33,13 +33,20 @@ export const authError = error => ({
     error
 });
 
+export const USER_ACTIVE = 'USER_ACTIVE';
+export const userActive = (logoutTime) => ({
+    type: USER_ACTIVE, 
+    logoutTime
+});
+
+
 // Stores the auth token in state and localStorage, and decodes and stores
 // the user data stored in the token
 const storeAuthInfo = (authToken, dispatch) => {
     const decodedToken = jwtDecode(authToken);
     dispatch(setAuthToken(authToken));
     dispatch(authSuccess(decodedToken.user));
-    saveAuthToken(authToken);
+    // saveAuthToken(authToken);
 };
 
 export const login = (username, password) => dispatch => {
@@ -97,6 +104,6 @@ export const refreshAuthToken = () => (dispatch, getState) => {
             // them and sign us out
             dispatch(authError(err));
             dispatch(clearAuth());
-            clearAuthToken(authToken);
+            // clearAuthToken(authToken);
         });
 };

@@ -16,7 +16,7 @@ export function RegistrationPage(props) {
             <RegistrationForm />
             <Link to="/">Login</Link>
         </div>
-    );
+    );    
 }
 
 const mapStateToProps = state => ({

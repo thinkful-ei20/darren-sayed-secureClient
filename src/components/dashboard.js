@@ -6,11 +6,19 @@ import {fetchProtectedData} from '../actions/protected-data';
 export class Dashboard extends React.Component {
     componentDidMount() {
         this.props.dispatch(fetchProtectedData());
+        console.log('comp did mount from dashbaord.js');
+        
+    }
+
+    onSubmit = () => {
+        console.log('clicked');
     }
 
     render() {
+        const formattedDate = this.props.lastActive;
         return (
             <div className="dashboard">
+                <div>Last active: {formattedDate}</div>
                 <div className="dashboard-username">
                     Username: {this.props.username}
                 </div>
@@ -28,7 +36,8 @@ const mapStateToProps = state => {
     return {
         username: state.auth.currentUser.username,
         name: `${currentUser.firstName} ${currentUser.lastName}`,
-        protectedData: state.protectedData.data
+        protectedData: state.protectedData.data,
+        lastActive: state.auth.lastActivity
     };
 };
 
